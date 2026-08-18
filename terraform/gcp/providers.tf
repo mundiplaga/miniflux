@@ -1,4 +1,4 @@
 provider "google" {
-  project     = "bishop-sre-example"
-  region      = "asia-northeast1"
+  project     = var.project_id
+  region      = var.region
 }
