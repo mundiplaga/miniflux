@@ -6,5 +6,10 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 7.0"
     }
+
+    supabase = {
+      source  = "supabase/supabase"
+      version = "~> 1.0"
+    }
   }
 }
