@@ -5,6 +5,12 @@ on:
     paths:
       - "terraform/gcp/**"
       - ".github/workflows/terraform-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "terraform/gcp/**"
+      - ".github/workflows/terraform-ci.yml"
 
 permissions:
   contents: read
