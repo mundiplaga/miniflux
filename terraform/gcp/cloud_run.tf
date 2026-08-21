@@ -1,8 +1,9 @@
 resource "google_cloud_run_v2_service" "default" {
-  name                = "miniflux"
-  location            = var.region
-  deletion_protection = false
-  ingress             = "INGRESS_TRAFFIC_ALL"
+  name                 = "miniflux"
+  location             = var.region
+  deletion_protection  = false
+  ingress              = "INGRESS_TRAFFIC_ALL"
+  invoker_iam_disabled = true
 
   scaling {
     max_instance_count = 2
