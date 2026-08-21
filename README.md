@@ -8,6 +8,8 @@ The goal of this project is to explore and demonstrate practical systems enginee
 
 In order to be gentle to my wallet, I am using Supabase as a Postgres Host instead of a full on CloudSQL implementation. There are drawbacks like a lack of snapshotting, and lack of Google IAM Authentication, but I am proficient in GCP CloudSQL administration.
 
+Github is my source of truth and CI/CD interface. HCP Terraform provides centralized remote state and execution.
+
 ## Pre-productionalization notes
 
 - check .gitignore for hidden files required
