@@ -14,7 +14,8 @@ variable "miniflux_image" {
 }
 
 variable "sb_access_token" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "pg_password" {

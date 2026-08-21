@@ -9,6 +9,31 @@ locals {
   ])
 }
 
+# terraform {
+#   backend "remote" {
+#     organization = "jared-bishop"
+
+#     workspaces {
+#       name = "gcp-miniflux"
+#     }
+#   }
+# }
+
+terraform {
+  required_version = "1.15.9"
+
+  cloud {
+
+    organization = "jared-bishop"
+
+    workspaces {
+      name = "gcp-miniflux"
+    }
+  }
+}
+
+
+
 resource "google_project_service" "required_apis" {
   for_each = local.required_apis
   project  = var.project_id
