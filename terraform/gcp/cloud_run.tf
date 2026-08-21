@@ -1,3 +1,12 @@
+locals {
+  secrets = [
+    "pg-url",
+    "pg-password",
+    "sb-access-token",
+    "miniflux-admin-password",
+  ]
+}
+
 resource "google_cloud_run_v2_service" "default" {
   name                 = "miniflux"
   location             = var.region
@@ -55,16 +64,21 @@ resource "google_cloud_run_v2_service" "default" {
 data "google_project" "project" {
 }
 
-resource "google_secret_manager_secret" "pg_url" {
-  secret_id = "pg-url"
+
+
+resource "google_secret_manager_secret" "miniflux_secrets" {
+  for_each  = toset(local.secrets)
+  secret_id = each.value
   replication {
     auto {}
   }
 }
 
-resource "google_secret_manager_secret_iam_member" "pg_url_access" {
-  secret_id  = google_secret_manager_secret.pg_url.id
-  role       = "roles/secretmanager.secretAccessor"
-  member     = google_service_account.miniflux_service_account.member
-  depends_on = [google_secret_manager_secret.pg_url]
-}
+# Hitting a race condition so they will be seprate commits
+
+# resource "google_secret_manager_secret_iam_member" "secrets_access" {
+#   for_each = google_secret_manager_secret.miniflux_secrets.id
+#   secret_id  = each.value
+#   role       = "roles/secretmanager.secretAccessor"
+#   member     = google_service_account.miniflux_service_account.member
+# }
