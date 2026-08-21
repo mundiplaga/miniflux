@@ -40,3 +40,9 @@ resource "google_service_account_iam_member" "workload_identity_user" {
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.hcp_tf.name}/attribute.terraform_workspace_id/${local.terraform_workspace_id}"
 }
+
+resource "google_project_iam_member" "security_admin" {
+  project = var.project_id
+  role    = "roles/iam.securityAdmin"
+  member  = google_service_account.rt_tf.member
+}
