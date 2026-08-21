@@ -32,7 +32,6 @@ terraform {
   }
 }
 
-
 resource "google_project_service" "required_apis" {
   for_each = local.required_apis
   project  = var.project_id
