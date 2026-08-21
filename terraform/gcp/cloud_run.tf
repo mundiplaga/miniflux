@@ -24,10 +24,6 @@ resource "google_cloud_run_v2_service" "default" {
       image = var.miniflux_image
 
       env {
-        name  = "DATABASE_URL"
-        value = var.pg_url
-      }
-      env {
         name  = "RUN_MIGRATIONS"
         value = "1"
       }
@@ -40,18 +36,23 @@ resource "google_cloud_run_v2_service" "default" {
         value = "admin"
       }
       env {
-        name  = "ADMIN_PASSWORD"
-        value = var.miniflux_admin_pw
+        name = "DATABASE_URL"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.miniflux_secrets["pg-url"].secret_id
+            version = "1"
+          }
+        }
       }
-      #   env {
-      #     name = "SECRET_ENV_VAR"
-      #     value_source {
-      #       secret_key_ref {
-      #         secret = google_secret_manager_secret.secret.secret_id
-      #         version = "1"
-      #       }
-      #     }
-      #   }
+      env {
+        name = "ADMIN_PASSWORD"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.miniflux_secrets["miniflux-admin-password"].secret_id
+            version = "1"
+          }
+        }
+      }
     }
   }
 
