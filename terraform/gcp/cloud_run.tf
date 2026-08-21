@@ -10,6 +10,7 @@ resource "google_cloud_run_v2_service" "default" {
   }
 
   template {
+    service_account = google_service_account.miniflux_service_account.email
     containers {
       image = var.miniflux_image
 
@@ -49,27 +50,21 @@ resource "google_cloud_run_v2_service" "default" {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
     percent = 100
   }
-  #   depends_on = [google_secret_manager_secret_version.secret-version-data]
 }
 
 data "google_project" "project" {
 }
 
-# resource "google_secret_manager_secret" "secret" {
-#   secret_id = "secret-1"
-#   replication {
-#     auto {}
-#   }
-# }
+resource "google_secret_manager_secret" "pg_url" {
+  secret_id = "pg-url"
+  replication {
+    auto {}
+  }
+}
 
-# resource "google_secret_manager_secret_version" "secret-version-data" {
-#   secret = google_secret_manager_secret.secret.name
-#   secret_data = "secret-data"
-# }
-
-# resource "google_secret_manager_secret_iam_member" "secret-access" {
-#   secret_id = google_secret_manager_secret.secret.id
-#   role      = "roles/secretmanager.secretAccessor"
-#   member    = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
-#   depends_on = [google_secret_manager_secret.secret]
-# }
+resource "google_secret_manager_secret_iam_member" "pg_url_access" {
+  secret_id  = google_secret_manager_secret.pg_url.id
+  role       = "roles/secretmanager.secretAccessor"
+  member     = google_service_account.miniflux_service_account.member
+  depends_on = [google_secret_manager_secret.pg_url]
+}
