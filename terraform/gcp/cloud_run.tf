@@ -74,11 +74,9 @@ resource "google_secret_manager_secret" "miniflux_secrets" {
   }
 }
 
-# Hitting a race condition so they will be seprate commits
-
-# resource "google_secret_manager_secret_iam_member" "secrets_access" {
-#   for_each = google_secret_manager_secret.miniflux_secrets.id
-#   secret_id  = each.value
-#   role       = "roles/secretmanager.secretAccessor"
-#   member     = google_service_account.miniflux_service_account.member
-# }
+resource "google_secret_manager_secret_iam_member" "secrets_access" {
+  for_each  = google_secret_manager_secret.miniflux_secrets
+  secret_id = google_secret_manager_secret.miniflux_secrets[each.key].id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = google_service_account.miniflux_service_account.member
+}
