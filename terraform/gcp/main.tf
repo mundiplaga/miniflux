@@ -9,16 +9,6 @@ locals {
   ])
 }
 
-# terraform {
-#   backend "remote" {
-#     organization = "jared-bishop"
-
-#     workspaces {
-#       name = "gcp-miniflux"
-#     }
-#   }
-# }
-
 terraform {
   required_version = "1.15.9"
 
@@ -38,9 +28,4 @@ resource "google_project_service" "required_apis" {
   service  = each.value
 
   disable_on_destroy = false
-}
-
-resource "google_service_account" "miniflux_service_account" {
-  account_id   = "rt-miniflux"
-  display_name = "rt-miniflux"
 }
