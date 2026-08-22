@@ -1,10 +1,10 @@
 # Google's Terraform provider does not provide a programatic way to create SLO's for non AppEngine services
 # so I've opted to import then manage it.
 
-import {
-  id = "projects/${var.project_id}/services/${var.slo_service_id}"
-  to = google_monitoring_service.miniflux
-}
+# import {
+#   id = "projects/${var.project_id}/services/${var.slo_service_id}"
+#   to = google_monitoring_service.miniflux
+# }
 
 resource "google_monitoring_service" "miniflux" {
   service_id   = var.slo_service_id
@@ -16,11 +16,6 @@ resource "google_monitoring_service" "miniflux" {
     }
     service_type = "CLOUD_RUN"
   }
-}
-
-import {
-  id = "projects/80024592637/services/dBXFKZf0QCSKlkxzNxyw5g/serviceLevelObjectives/xKx8Z70TTVu8hI5EJ8kTUQ"
-  to = google_monitoring_slo.request_based_slo
 }
 
 resource "google_monitoring_slo" "request_based_slo" {
