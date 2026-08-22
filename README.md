@@ -10,7 +10,12 @@ In order to be gentle to my wallet, I am using Supabase as a Postgres Host inste
 
 Github is my source of truth and CI/CD interface. HCP Terraform provides centralized remote state and execution.
 
-## Pre-productionalization notes
+## GCP
 
-- check .gitignore for hidden files required
-- gcp/terraform.tfvars will all move to google secrets
+### Secrets
+
+All application secrets live in GCP and were manually populated after creation.
+
+The initial setup of Terraform Cloud Workspace required a Service Account key that was used one time to provision the Workload Identity pools so that I could leverage that instead of a long lived key. Read more about Workload Identity [here](https://www.hashicorp.com/en/blog/access-google-cloud-from-hcp-terraform-with-workload-identity)
+
+### Monitoring
