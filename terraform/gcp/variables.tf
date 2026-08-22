@@ -22,3 +22,8 @@ variable "sb_project_id" {
   type    = string
   default = "my-project"
 }
+
+variable "slo_service_id" {
+  type    = string
+  default = "dBXFKZf0QCSKlkxzNxyw5g"
+}
