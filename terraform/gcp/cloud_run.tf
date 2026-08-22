@@ -41,6 +41,14 @@ resource "google_cloud_run_v2_service" "default" {
         value = "admin"
       }
       env {
+        name = "LOG_FORMAT"
+        value = "json"
+      }
+      env {
+        name = "LOG_LEVEL"
+        value = "warning"
+      }
+      env {
         name = "DATABASE_URL"
         value_source {
           secret_key_ref {
