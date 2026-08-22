@@ -7,6 +7,11 @@ locals {
   ]
 }
 
+resource "google_service_account" "miniflux_service_account" {
+  account_id   = "rt-miniflux"
+  display_name = "rt-miniflux"
+}
+
 resource "google_cloud_run_v2_service" "default" {
   name                 = "miniflux"
   location             = var.region
@@ -64,8 +69,6 @@ resource "google_cloud_run_v2_service" "default" {
 
 data "google_project" "project" {
 }
-
-
 
 resource "google_secret_manager_secret" "miniflux_secrets" {
   for_each  = toset(local.secrets)

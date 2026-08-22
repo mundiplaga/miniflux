@@ -1,6 +1,15 @@
 locals {
   tf_org_id              = "jared-bishop"
   terraform_workspace_id = "ws-J49Jd51CraBHpR7B"
+  rt_tf_iam = [
+    "roles/iam.securityAdmin",
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/secretmanager.admin",
+    "roles/run.admin",
+    "roles/iam.devOps",
+    "roles/workloadidentity.admin",
+    "roles/iam.workloadIdentityPoolAdmin",
+  ]
 }
 
 # create a workload identity pool for HCP Terraform
@@ -41,8 +50,10 @@ resource "google_service_account_iam_member" "workload_identity_user" {
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.hcp_tf.name}/attribute.terraform_workspace_id/${local.terraform_workspace_id}"
 }
 
-resource "google_project_iam_member" "security_admin" {
-  project = var.project_id
-  role    = "roles/iam.securityAdmin"
-  member  = google_service_account.rt_tf.member
+# For bootstrapping, it may be necessary to give something like Editor to grease the wheels
+resource "google_project_iam_member" "rt_tf_iam" {
+  for_each = toset(local.rt_tf_iam)
+  project  = var.project_id
+  role     = each.value
+  member   = google_service_account.rt_tf.member
 }
