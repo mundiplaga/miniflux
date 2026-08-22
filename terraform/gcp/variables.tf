@@ -13,16 +13,6 @@ variable "miniflux_image" {
   default = "miniflux/miniflux:2.3.3"
 }
 
-variable "sb_access_token" {
-  type      = string
-  sensitive = true
-}
-
-variable "pg_password" {
-  sensitive = true
-  type      = string
-}
-
 variable "sb_org_id" {
   type    = string
   default = "igfypvohqhxofkatuesc"
@@ -31,14 +21,4 @@ variable "sb_org_id" {
 variable "sb_project_id" {
   type    = string
   default = "my-project"
-}
-
-variable "pg_url" {
-  sensitive = true
-  type      = string
-}
-
-variable "miniflux_admin_pw" {
-  sensitive = true
-  type      = string
 }
