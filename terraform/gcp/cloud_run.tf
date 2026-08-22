@@ -41,11 +41,11 @@ resource "google_cloud_run_v2_service" "default" {
         value = "admin"
       }
       env {
-        name = "LOG_FORMAT"
+        name  = "LOG_FORMAT"
         value = "json"
       }
       env {
-        name = "LOG_LEVEL"
+        name  = "LOG_LEVEL"
         value = "warning"
       }
       env {
