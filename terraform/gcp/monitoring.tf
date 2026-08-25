@@ -1,3 +1,11 @@
+resource "google_monitoring_notification_channel" "default" {
+  display_name = "SLO - Availability Alert"
+  type         = "email"
+  labels = {
+    email_address = var.email_address
+  }
+}
+
 # Google's Terraform provider does not provide a programatic way to create SLO's for non AppEngine services
 # so I've opted to import then manage it.
 
@@ -54,3 +62,44 @@ resource "google_monitoring_slo" "request_based_slo" {
     }
   }
 }
+
+resource "google_monitoring_alert_policy" "cpu" {
+  display_name          = "Container CPU utilization"
+  combiner              = "OR"
+  notification_channels = [google_monitoring_notification_channel.default.id]
+  severity              = "WARNING"
+  alert_strategy {
+    notification_prompts = [
+      "OPENED"
+    ]
+  }
+  documentation {
+    subject = "CPU Alert"
+  }
+  conditions {
+    display_name = "Cloud Run Revision - Container CPU Utilization"
+
+    condition_threshold {
+      comparison      = "COMPARISON_GT"
+      duration        = "0s"
+      filter          = "resource.type = \"cloud_run_revision\" AND metric.type = \"run.googleapis.com/container/cpu/utilizations\""
+      threshold_value = 0.8
+
+      aggregations {
+        alignment_period     = "300s"
+        cross_series_reducer = "REDUCE_PERCENTILE_99"
+        group_by_fields = [
+          "resource.label.service_name",
+        ]
+        per_series_aligner = "ALIGN_SUM"
+      }
+
+      trigger {
+        count   = 1
+        percent = 0
+      }
+    }
+  }
+}
+
+
