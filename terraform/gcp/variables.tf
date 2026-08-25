@@ -27,3 +27,8 @@ variable "slo_service_id" {
   type    = string
   default = "dBXFKZf0QCSKlkxzNxyw5g"
 }
+
+variable "email_address" {
+  sensitive = true
+  type      = string
+}
