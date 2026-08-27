@@ -8,6 +8,7 @@ resource "google_artifact_registry_project_config" "default" {
 }
 
 resource "google_artifact_registry_repository" "miniflux" {
+  #checkov:skip=CKV_GCP_84:This is fine to be in googles control IMO. Also the registry is currently empty.
   location      = var.region
   repository_id = "miniflux"
   description   = "miniflux docker repository"
