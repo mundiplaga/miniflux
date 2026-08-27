@@ -52,6 +52,7 @@ resource "google_service_account_iam_member" "workload_identity_user" {
 
 # For bootstrapping, it may be necessary to give something like Editor to grease the wheels
 resource "google_project_iam_member" "rt_tf_iam" {
+  #checkov:skip=CKV_GCP_49:This is my terraform runtime service account. It alone should be allowed higher privledges.
   for_each = toset(local.rt_tf_iam)
   project  = var.project_id
   role     = each.value

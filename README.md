@@ -19,3 +19,7 @@ All application secrets live in GCP and were manually populated after creation.
 The initial setup of Terraform Cloud Workspace required a Service Account key that was used one time to provision the Workload Identity pools so that I could leverage that instead of a long lived key. Read more about Workload Identity [here](https://www.hashicorp.com/en/blog/access-google-cloud-from-hcp-terraform-with-workload-identity)
 
 ### Monitoring
+
+There is a Service Level Objective alert that will fire if 1% of requests fail in a given weekly period.
+
+There is a an alert that will fire if the average CPU usage goes above 80% in any 5 minute period.
