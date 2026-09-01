@@ -4,6 +4,8 @@ locals {
     "pg-password",
     "sb-access-token",
     "miniflux-admin-password",
+    "miniflux-oauth2-client-secret",
+    "miniflux-oauth2-client-id",
   ]
 }
 
@@ -66,6 +68,36 @@ resource "google_cloud_run_v2_service" "default" {
           }
         }
       }
+      env {
+        name  = "OAUTH2_PROVIDER"
+        value = "google"
+      }
+      env {
+        name  = "OAUTH2_REDIRECT_URL"
+        value = "https://miniflux.gcp.jaredbishop.dev/oauth2/google/callback"
+      }
+      env {
+        name  = "OAUTH2_USER_CREATION"
+        value = "1"
+      }
+      env {
+        name = "OAUTH2_CLIENT_SECRET"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.miniflux_secrets["miniflux-oauth2-client-secret"].secret_id
+            version = "1"
+          }
+        }
+      }
+      env {
+        name = "OAUTH2_CLIENT_ID"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.miniflux_secrets["miniflux-oauth2-client-id"].secret_id
+            version = "1"
+          }
+        }
+      }
     }
   }
 
@@ -73,6 +105,7 @@ resource "google_cloud_run_v2_service" "default" {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
     percent = 100
   }
+  depends_on = [google_secret_manager_secret.miniflux_secrets]
 }
 
 data "google_project" "project" {
