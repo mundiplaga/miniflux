@@ -22,4 +22,8 @@ The initial setup of Terraform Cloud Workspace required a Service Account key th
 
 There is a Service Level Objective alert that will fire if 1% of requests fail in a given weekly period.
 
+![SLO Alert](images/SLO.png)
+
 There is a an alert that will fire if the average CPU usage goes above 80% in any 5 minute period.
+
+![CPU Alert](images/CPU.png)
