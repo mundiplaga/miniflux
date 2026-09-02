@@ -76,6 +76,7 @@ resource "google_monitoring_alert_policy" "cpu" {
   documentation {
     mime_type = "text/markdown"
     subject   = "CPU Alert"
+    content   = "Check logs"
   }
   conditions {
     display_name = "Cloud Run Revision - Container CPU Utilization"
