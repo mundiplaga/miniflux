@@ -11,9 +11,8 @@ I'm starting with GCP and will expand to AWS and Azure as the project develops.
 
 The goal of this project is to explore and demonstrate practical systems engineering practices around infrastructure, automation, security, and reliability using a real open-source application.
 
-In order to be gentle to my wallet, I am using Supabase as a Postgres Host instead of a full on CloudSQL 
-implementation. There are drawbacks like a lack of snapshotting, and lack of Google IAM Authentication, but I am
-proficient in GCP CloudSQL administration.
+In order to be gentle to my wallet, I am using [Supabase](https://supabase.com/) as a Postgres Host instead of a full on CloudSQL implementation. There are drawbacks like a lack of snapshotting, and lack of Google IAM Authentication, but I am
+already proficient in GCP CloudSQL administration.
 
 My compute is Google Cloud Run, which allows extremely small instances, per second billing, and automatic scaling.
 
